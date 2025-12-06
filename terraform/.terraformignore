@@ -1,0 +1,49 @@
+# Local .terraform directories
+.terraform/
+
+# Terraform lockfile (comment out if you want to commit this)
+.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude .tfvars files (contains sensitive data)
+*.tfvars
+*.tfvars.json
+
+# Ignore override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore transient lock info files
+.terraform.tfstate.lock.info
+
+# Include tfplan files to ignore the plan output
+*.tfplan
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# OS generated files
+.DS_Store
+._*
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Backup files
+*.backup
+*.bak
+
+# Log files
+*.log

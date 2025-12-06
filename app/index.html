@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Load Balancer Auto Scaling Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 AWS Load Balancer Auto Scaling Demo</h1>
+            <p class="subtitle">High Availability Web Application with Elastic Scaling</p>
+        </header>
+
+        <main>
+            <div class="info-card">
+                <h2>Server Information</h2>
+                <div class="server-info">
+                    <div class="info-item">
+                        <span class="label">Instance ID:</span>
+                        <span class="value" id="instance-id">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Availability Zone:</span>
+                        <span class="value" id="availability-zone">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Instance Type:</span>
+                        <span class="value" id="instance-type">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Private IP:</span>
+                        <span class="value" id="private-ip">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Load Time:</span>
+                        <span class="value" id="load-time"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="architecture-card">
+                <h2>Architecture Overview</h2>
+                <div class="architecture-flow">
+                    <div class="arch-item">
+                        <div class="arch-icon">🌐</div>
+                        <div class="arch-label">Internet</div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-item">
+                        <div class="arch-icon">⚖️</div>
+                        <div class="arch-label">Application<br>Load Balancer</div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-item">
+                        <div class="arch-icon">📈</div>
+                        <div class="arch-label">Auto Scaling<br>Group</div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-item">
+                        <div class="arch-icon">🖥️</div>
+                        <div class="arch-label">EC2<br>Instances</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Auto Scaling</h3>
+                    <p>Automatically scales EC2 instances based on CPU utilization and demand patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>High Performance</h3>
+                    <p>Load balancer distributes traffic evenly across healthy instances for optimal performance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>High Availability</h3>
+                    <p>Multi-AZ deployment ensures your application remains available even during failures.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Cost Efficient</h3>
+                    <p>Pay only for the resources you use with automatic scaling up and down.</p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="refresh-btn" class="btn btn-primary">
+                    🔄 Refresh Server Info
+                </button>
+                <button id="cpu-test-btn" class="btn btn-secondary">
+                    🔥 CPU Load Test
+                </button>
+            </div>
+
+            <div class="monitoring-card">
+                <h2>Monitoring & Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">CPU Utilization</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="cpu-bar" style="width: 15%"></div>
+                        </div>
+                        <span class="metric-value" id="cpu-value">15%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Memory Usage</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="memory-bar" style="width: 35%"></div>
+                        </div>
+                        <span class="metric-value" id="memory-value">35%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Network I/O</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="network-bar" style="width: 20%"></div>
+                        </div>
+                        <span class="metric-value" id="network-value">20%</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 AWS Load Balancer Auto Scaling Demo | Built with ❤️ on AWS</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load server information on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServerInfo();
+            updateLoadTime();
+            simulateMetrics();
+        });
+
+        // Refresh button functionality
+        document.getElementById('refresh-btn').addEventListener('click', function() {
+            loadServerInfo();
+            updateLoadTime();
+        });
+
+        // CPU Test button functionality
+        document.getElementById('cpu-test-btn').addEventListener('click', function() {
+            this.textContent = '🔥 Running CPU Test...';
+            this.disabled = true;
+            
+            // Simulate CPU load test
+            setTimeout(() => {
+                this.textContent = '🔥 CPU Load Test';
+                this.disabled = false;
+                alert('CPU load test completed! Check CloudWatch metrics to see scaling in action.');
+            }, 3000);
+        });
+
+        function loadServerInfo() {
+            // In a real implementation, this would fetch from instance metadata
+            // For demo purposes, we'll simulate the data
+            document.getElementById('instance-id').textContent = 'i-' + Math.random().toString(36).substr(2, 9);
+            document.getElementById('availability-zone').textContent = 'us-east-1' + ['a', 'b', 'c'][Math.floor(Math.random() * 3)];
+            document.getElementById('instance-type').textContent = 't3.micro';
+            document.getElementById('private-ip').textContent = '10.0.' + (Math.floor(Math.random() * 3) + 1) + '.' + (Math.floor(Math.random() * 254) + 1);
+        }
+
+        function updateLoadTime() {
+            document.getElementById('load-time').textContent = new Date().toLocaleString();
+        }
+
+        function simulateMetrics() {
+            // Simulate changing metrics
+            setInterval(() => {
+                const cpu = Math.floor(Math.random() * 60) + 10;
+                const memory = Math.floor(Math.random() * 40) + 30;
+                const network = Math.floor(Math.random() * 50) + 10;
+
+                document.getElementById('cpu-bar').style.width = cpu + '%';
+                document.getElementById('cpu-value').textContent = cpu + '%';
+                
+                document.getElementById('memory-bar').style.width = memory + '%';
+                document.getElementById('memory-value').textContent = memory + '%';
+                
+                document.getElementById('network-bar').style.width = network + '%';
+                document.getElementById('network-value').textContent = network + '%';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
