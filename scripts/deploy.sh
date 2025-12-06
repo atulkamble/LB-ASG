@@ -66,7 +66,7 @@ deploy_infrastructure() {
     print_status "Starting infrastructure deployment..."
     
     # Navigate to terraform directory
-    cd terraform
+    cd ../terraform
     
     # Initialize Terraform
     print_status "Initializing Terraform..."
@@ -99,8 +99,8 @@ deploy_infrastructure() {
     LOAD_BALANCER_DNS=$(terraform output -raw load_balancer_dns)
     WEBSITE_URL=$(terraform output -raw website_url)
     
-    # Navigate back to root directory
-    cd ..
+    # Navigate back to scripts directory
+    cd ../scripts
     
     print_success "Infrastructure deployed successfully!"
     echo
@@ -114,7 +114,7 @@ deploy_infrastructure() {
 check_deployment_status() {
     print_status "Checking deployment status..."
     
-    cd terraform
+    cd ../terraform
     
     # Get load balancer DNS
     LOAD_BALANCER_DNS=$(terraform output -raw load_balancer_dns 2>/dev/null || echo "")
@@ -141,7 +141,7 @@ check_deployment_status() {
         print_error "Could not retrieve load balancer DNS. Make sure the infrastructure is deployed."
     fi
     
-    cd ..
+    cd ../scripts
 }
 
 # Function to destroy infrastructure
@@ -158,9 +158,9 @@ destroy_infrastructure() {
     
     print_status "Destroying infrastructure..."
     
-    cd terraform
+    cd ../terraform
     terraform destroy -auto-approve
-    cd ..
+    cd ../scripts
     
     print_success "Infrastructure destroyed successfully!"
 }
